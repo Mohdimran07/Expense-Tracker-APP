@@ -10,26 +10,39 @@ const Profile = () => {
     const expCtx = useContext(ExpenseContext);
     
   
-    const submitHandler = async(e) => {
+    const submitHandler = (e) => {
       e.preventDefault();
   
       const Name = nameRef.current.value;
       const Profile = profileRef.current.value;
+      console.log(expCtx.token)
+      console.log(Name)
+      console.log(Profile)
 
-      try{
-          const res = await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDMAeY4s_3W-uYEak8CGBun_az9tJyeAXo", {
+      
+         axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDMAeY4s_3W-uYEak8CGBun_az9tJyeAXo", {
             idToken: expCtx.token,
             displayName: Name,
             photoUrl: Profile,
             deleteAttribute: "Display_Name",
             returnSecureToken: true, 
-          })
-          if(res){
+          }).then((res) => {
               console.log(res)
-          }
-      } catch(e){
-          console.log(e);
-      }
+              axios.get("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDMAeY4s_3W-uYEak8CGBun_az9tJyeAXo",{
+                        idToken: res.data.idToken,
+                       }).then(data => {
+                           console.log(data)
+                       })
+          }).catch((err) => console.log(err))
+        //   if(res){
+        //       console.log(res)
+        //     //   axios.get("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDMAeY4s_3W-uYEak8CGBun_az9tJyeAXo",{
+        //     //     idToken: res.data.idToken,
+        //     //    }).then(data => {
+        //     //        console.log(data)
+        //     //    })
+        //   }
+     
   
     //   fetch(
     //     "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyD1BTMA7z79Hl-kprnDA2dYOj0ZeIHyiEs",
