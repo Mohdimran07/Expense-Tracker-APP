@@ -44,6 +44,18 @@ const SignUp = () => {
       if (response) {
         console.log(response.data);
         console.log("user signed up");
+        axios
+          .post(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDMAeY4s_3W-uYEak8CGBun_az9tJyeAXo",
+            {
+              requestType: "VERIFY_EMAIL",
+              idToken: response.data.idToken,
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            console.log("sucess");
+          });
       }
     } catch (e) {
       console.log(e);
