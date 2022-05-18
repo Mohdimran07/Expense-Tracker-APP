@@ -4,6 +4,7 @@ import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/Form/Login";
 import SignUp from "./components/Form/SignUp";
+import Profile from "./components/Profile/Profile";
 import ExpenseContext from "./context-store/Expense-context";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         {isLoggedIn && <Route path="/" element={<Dashboard />} />}
+        {isLoggedIn && <Route path="/profile" element={<Profile />} />}
       </Routes>
     </div>
   );
