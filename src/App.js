@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/Form/Login";
@@ -17,6 +17,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         {isLoggedIn && <Route path="/" element={<Dashboard />} />}
         {isLoggedIn && <Route path="/profile" element={<Profile />} />}
+       <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </div>
   );

@@ -4,12 +4,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState("");
   const paperStyled = {
     padding: 30,
@@ -55,6 +56,7 @@ const SignUp = () => {
           .then((res) => {
             console.log(res);
             console.log("sucess");
+            navigate("/login")
           });
       }
     } catch (e) {
