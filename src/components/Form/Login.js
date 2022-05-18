@@ -72,7 +72,10 @@ const Login = () => {
             <Button type="submit"  variant="contained"
               style={{ marginTop: "20px" }}
               fullWidth >Login</Button>
-              <Typography>
+              <Typography style={{ marginTop: "10px"}}>
+                  <Link to="/forgot">Forgot Password</Link>
+              </Typography>
+              <Typography style={{ marginTop: "10px"}}>
                   Create an account
                   <Link to="/signup">Signup</Link>
               </Typography>
