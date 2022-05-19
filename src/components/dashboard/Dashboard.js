@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ExpenseContext from "../../context-store/Expense-context";
 import AddExpense from "../Expenses/AddExpense";
+import ExpenseList from "../Expenses/ExpenseList";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -25,6 +26,7 @@ const Dashboard = () => {
       </div>
       <div>
         <AddExpense />
+        <ExpenseList />
       </div>
     </>
   );

@@ -1,0 +1,32 @@
+.users {
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 40rem;
+  justify-content: space-between;
+}
+
+.users ul {
+  list-style: none;
+  padding: 1.1rem;
+}
+
+.users li {
+  border: 1px solid rgb(20, 2, 2);
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.users button {
+  margin: 0.5rem 0;
+  cursor: pointer;
+  font-family: Geneva, Verdana, sans-serif;
+  color: white;
+  background-color: #0d71e2;
+  border: 1px solid #f1c95b;
+  border-radius: 5px;
+  padding: 0.5rem;
+  flex: end;
+}
+.users button:hover {
+  background-color: #e23f0d;
+}

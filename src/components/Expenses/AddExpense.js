@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useRef } from "react";
 import "./AddExpense.css";
@@ -8,6 +9,32 @@ const AddExpense = () => {
   const DesInputRef = useRef();
   const CatInputRef = useRef();
 
+  const sendDataHandler = (e) => {
+    e.preventDefault();
+    const Money = MoneyInputRef.current.value;
+    const Description = DesInputRef.current.value;
+    const Category = CatInputRef.current.value;
+
+    const string = localStorage.getItem("UserId");
+    const email = string.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
+
+    axios
+      .post(
+        `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}.json`,
+        {
+          Money: Money,
+          Description: Description,
+          Category: Category,
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
+      MoneyInputRef.current.value = "";
+      DesInputRef.current.value = "";
+      CatInputRef.current.value = "";
+  };
+
   return (
     <Card className="input">
       <div className="ExpContainer">
@@ -15,7 +42,7 @@ const AddExpense = () => {
           <h1>Add Expenses</h1>
         </div>
       </div>
-      <form>
+      <form onSubmit={sendDataHandler}>
         <label>Money:</label>
         <input type="number" ref={MoneyInputRef} required></input>
         <label>Description:</label>
@@ -24,7 +51,7 @@ const AddExpense = () => {
         <input type="text" ref={CatInputRef} required />
 
         <div className="actions">
-          <button>submit</button>
+          <button type="submit">submit</button>
         </div>
       </form>
     </Card>
