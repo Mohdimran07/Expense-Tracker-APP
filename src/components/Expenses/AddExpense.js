@@ -4,10 +4,11 @@ import { useRef } from "react";
 import "./AddExpense.css";
 import Card from "./Card";
 
-const AddExpense = () => {
+const AddExpense = (props) => {
   const MoneyInputRef = useRef();
   const DesInputRef = useRef();
   const CatInputRef = useRef();
+  console.log(props)
 
   const sendDataHandler = (e) => {
     e.preventDefault();
@@ -30,10 +31,17 @@ const AddExpense = () => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
+    
+
       MoneyInputRef.current.value = "";
       DesInputRef.current.value = "";
       CatInputRef.current.value = "";
   };
+
+//   const editHandler = (props, e) => {
+//      e.preventDefault();
+//      console.log(props)
+//   }
 
   return (
     <Card className="input">
