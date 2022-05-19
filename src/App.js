@@ -19,7 +19,7 @@ function App() {
         {isLoggedIn && <Route path="/" element={<Dashboard />} />}
         {isLoggedIn && <Route path="/profile" element={<Profile />} />}
         {!isLoggedIn && <Route path="/forgot" element={<ForgotPassword />} />}
-       <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </div>
   );
