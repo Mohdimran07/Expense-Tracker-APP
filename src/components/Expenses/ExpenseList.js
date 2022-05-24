@@ -3,20 +3,17 @@ import Card from "../Expenses/Card";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./ExpenseList.css";
-// import { useDispatch, useSelector } from "react-redux";
+import { expenseActions } from "../../redux-store/expense";
+import { useDispatch } from "react-redux";
 // import { expenseActions } from "../../redux-store/expense";
 
 const ExpenseList = ({ editHandler }) => {
   const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const dispatch = useDispatch()
-  //   const deleteHandlerId = useSelector(state => state.expense.deleteExpense)
-  //   console.log(deleteHandlerId)
-  
-    
-    let String = localStorage.getItem("Id");
-    let email = String.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
-    let url = `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}.json`;
+ const dispatch = useDispatch();
+  let String = localStorage.getItem("Id");
+  let email = String.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
+  let url = `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}.json`;
 
   const getData = async () => {
     try {
@@ -24,6 +21,7 @@ const ExpenseList = ({ editHandler }) => {
       const response = await axios.get(url);
       console.log(response.data);
       setExpenses(response.data);
+      dispatch(expenseActions.expenseData(response.data))
     } catch (e) {
       console.log(e);
     } finally {
@@ -33,7 +31,7 @@ const ExpenseList = ({ editHandler }) => {
 
   useEffect(() => {
     getData();
-  }, [url]);
+  }, []);
 
   const deleteHandler = (id, e) => {
     e.preventDefault();

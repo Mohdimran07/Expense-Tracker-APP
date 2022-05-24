@@ -16,7 +16,10 @@ const expenseSlice = createSlice({
             console.log(action.payload)
             state.id = action.payload
         },
-        updateExpense() {},
+        expenseData(state, action) {
+            console.log(action.payload);
+            state.data =  action.payload;
+        },
     }
 })
 

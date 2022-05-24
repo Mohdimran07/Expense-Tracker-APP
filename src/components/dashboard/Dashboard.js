@@ -1,23 +1,45 @@
 import { Button, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ExpenseList from "../Expenses/ExpenseList";
 import "./Dashboard.css";
 import Card from "../Expenses/Card";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../redux-store/auth";
 import { expenseActions } from "../../redux-store/expense";
+import { themeActions } from "../../redux-store/themeReducer";
+import DarkModeToggle from "../DarkMode/DarkModeToggle";
 
 const Dashboard = () => {
-
   const [money, setMoney] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [id, setId] = useState("");
- 
-
   const dispatch = useDispatch();
+  const mode = useSelector((state) => state.theme.isDarkMode);
+  console.log(mode);
+  const { isDarkMode } = mode;
+
+  const data = useSelector((state) => state.expense.data);
+  console.log(data);
+  let expenseData = Object.keys(data).map((expData) => data[expData]);
+  console.log(expenseData);
+
+  const switchDarkMode = () => {
+    isDarkMode ? handleDarkMode(false) : handleDarkMode(true);
+  };
+
+  const handleDarkMode = (e) => async (dispatch) => {
+    localStorage.setItem("darkmode", e);
+
+    dispatch(themeActions.darkModeReducer(e));
+  };
+
+  useEffect(() => {
+    document.body.style.backgroundColor = isDarkMode ? "#292c35" : "#fff";
+  }, [isDarkMode]);
+
   const logOutHandler = () => {
     dispatch(authActions.logout());
     localStorage.removeItem("Id");
@@ -64,9 +86,24 @@ const Dashboard = () => {
       )
       .then((res) => {
         console.log(res);
-        dispatch(expenseActions.addExpense(res))
+        dispatch(expenseActions.addExpense(res));
       })
       .catch((err) => console.log(err));
+  };
+
+  const makeCSV = (data) => {
+    return data.map((e) => e["Money"]);
+  };
+  console.log(makeCSV(expenseData));
+
+  const downloadFileHandler = (e) => {
+    e.preventDefault();
+    let blob = new Blob([makeCSV(expenseData)]);
+    let file = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.download = "mydata.text";
+    a.href = file;
+    a.click();
   };
 
   return (
@@ -78,9 +115,15 @@ const Dashboard = () => {
             Complete your <Link to="/profile">Profile</Link>
           </Typography>
         </div>
-        <div>
-          <Button onClick={logOutHandler}>Log out</Button>
+
+        <div className="buttons">
+          <div>
+            <Button onClick={logOutHandler}>Log out</Button>
+          </div>
         </div>
+      </div>
+      <div>
+        <DarkModeToggle />
       </div>
       <div>
         <Card className="input">
@@ -119,6 +162,10 @@ const Dashboard = () => {
               <button type="button" onClick={(e) => updateHandler(id, e)}>
                 update
               </button>
+            </div>
+            <div className="actions">
+              <button type="button">Premium</button>
+              <button onClick={downloadFileHandler}>Download file</button>
             </div>
           </form>
         </Card>

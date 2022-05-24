@@ -10,15 +10,7 @@ import Profile from "./components/Profile/Profile";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  // const navigate = useNavigate();
-  //   useEffect(() => {
-  //   const userId = localStorage.getItem("Id");
-  //   if (userId) {
-  //     navigate("/");
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, []);
+ 
 
   return (
     <div className="App">
