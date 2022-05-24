@@ -3,51 +3,70 @@ import Card from "../Expenses/Card";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./ExpenseList.css";
+// import { useDispatch, useSelector } from "react-redux";
+// import { expenseActions } from "../../redux-store/expense";
 
-const ExpenseList = ({ editHandler}) => {
-  const [cartItems, setCartItems] = useState([]);
-
-  useEffect(() => {
-    let String = localStorage.getItem("UserId");
-
+const ExpenseList = ({ editHandler }) => {
+  const [expenses, setExpenses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  // const dispatch = useDispatch()
+  //   const deleteHandlerId = useSelector(state => state.expense.deleteExpense)
+  //   console.log(deleteHandlerId)
+  
+    
+    let String = localStorage.getItem("Id");
     let email = String.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
+    let url = `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}.json`;
 
-    axios
-      .get(
-        `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}.json`
-      )
-      .then((response) => {
-        console.log(response.data);
-        setCartItems(response.data);
-      });
-  }, []);
-
-  const deleteHandler = (props, e) => {
-    e.preventDefault();
-    console.log(props);
-    let String = localStorage.getItem("UserId");
-
-    let email = String.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
-    console.log(email)
-    axios.delete(
-      `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}/${props}.json`
-    ).then((res) => console.log(res)).catch((e) => console.log(e))
+  const getData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(url);
+      console.log(response.data);
+      setExpenses(response.data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  useEffect(() => {
+    getData();
+  }, [url]);
 
+  const deleteHandler = (id, e) => {
+    e.preventDefault();
+    console.log(id);
+    let String = localStorage.getItem("Id");
+
+    let email = String.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
+    console.log(email);
+    axios
+      .delete(
+        `https://react-expense-tracker-b8dfe-default-rtdb.firebaseio.com/ExpenseData${email}/${id}.json`
+      )
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  };
 
   return (
     <Card className="users">
       <ul>
-        {Object.keys(cartItems).map((key) => (
-          //  console.log(key)
-          <li key={cartItems[key].id}>
-            {cartItems[key]["Money"]} {"->"} {cartItems[key].Description}
-            {" -> "}
-            {cartItems[key].Category} <button onClick={(e) => editHandler(key, cartItems[key], e)}>Edit</button>{" "}
-            <button onClick={(e) => deleteHandler(key, e)}>Delete</button>
-          </li>
-        ))}
+        {!isLoading &&
+          expenses &&
+          Object.keys(expenses).map((key) => (
+            <li key={key}>
+              {expenses[key]["Money"]} {"->"} {expenses[key].Description}
+              {" -> "}
+              {expenses[key].Category}{" "}
+              <button onClick={(e) => editHandler(key, expenses[key], e)}>
+                Edit
+              </button>{" "}
+              <button onClick={(e) => deleteHandler(key, e)}>Delete</button>
+            </li>
+          ))}
+        {isLoading && <p>Loading...</p>}
       </ul>
     </Card>
   );

@@ -5,7 +5,6 @@ import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [emailId, setEmailId] = useState("");
@@ -56,7 +55,7 @@ const SignUp = () => {
           .then((res) => {
             console.log(res);
             console.log("sucess");
-            navigate("/login")
+            navigate("/login");
           });
       }
     } catch (e) {

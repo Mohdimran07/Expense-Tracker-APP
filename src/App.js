@@ -1,4 +1,5 @@
-import { useContext } from "react";
+// import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -6,17 +7,25 @@ import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import Login from "./components/Form/Login";
 import SignUp from "./components/Form/SignUp";
 import Profile from "./components/Profile/Profile";
-import ExpenseContext from "./context-store/Expense-context";
 
 function App() {
-  const expCtx = useContext(ExpenseContext);
-  const isLoggedIn = expCtx.isLoggedIn;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const navigate = useNavigate();
+  //   useEffect(() => {
+  //   const userId = localStorage.getItem("Id");
+  //   if (userId) {
+  //     navigate("/");
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, []);
+
   return (
     <div className="App">
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route exact path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        {isLoggedIn && <Route path="/" element={<Dashboard />} />}
+        {isLoggedIn && <Route  path="/" element={<Dashboard />} />}
         {isLoggedIn && <Route path="/profile" element={<Profile />} />}
         {!isLoggedIn && <Route path="/forgot" element={<ForgotPassword />} />}
         <Route path="*" element={<Navigate to="/login" />} />

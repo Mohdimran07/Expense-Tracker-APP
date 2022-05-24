@@ -1,15 +1,18 @@
 import { Avatar, Button, Grid, Input, Paper, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ExpenseContext from "../../context-store/Expense-context";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../redux-store/auth";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
-  const expCtx = useContext(ExpenseContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
   const ariaLabel = { "aria-label": "description" };
   const emailHandler = (e) => {
     setEmailId(e.target.value);
@@ -17,6 +20,9 @@ const Login = () => {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
+
+ 
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -29,8 +35,8 @@ const Login = () => {
       });
       if (response) {
         console.log(response.data.idToken);
-        console.log("loggedin");
-        expCtx.login(response.data.idToken, response.data.email);
+        localStorage.setItem("Id", response.data.email);
+        dispatch(authActions.login(response.data.idToken));
         navigate("/");
       }
     } catch (e) {

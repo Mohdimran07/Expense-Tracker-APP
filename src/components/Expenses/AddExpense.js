@@ -16,7 +16,7 @@ const AddExpense = (props) => {
     const Description = DesInputRef.current.value;
     const Category = CatInputRef.current.value;
 
-    const string = localStorage.getItem("UserId");
+    const string = localStorage.getItem("Id");
     const email = string.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
 
     axios
