@@ -2,6 +2,7 @@
   margin: 2rem auto;
   width: 90%;
   max-width: 40rem;
+  
   justify-content: space-between;
 }
 
@@ -11,7 +12,7 @@
 }
 
 .users li {
-  border: 1px solid rgb(20, 2, 2);
+  border: 1px solid rgb(234, 28, 28);
   margin: 0.5rem 0;
   padding: 0.5rem;
 }

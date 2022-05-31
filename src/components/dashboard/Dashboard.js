@@ -1,14 +1,13 @@
 import { Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ExpenseList from "../Expenses/ExpenseList";
 import "./Dashboard.css";
-import Card from "../Expenses/Card";
+
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../redux-store/auth";
 import { expenseActions } from "../../redux-store/expense";
-import { themeActions } from "../../redux-store/themeReducer";
 import DarkModeToggle from "../DarkMode/DarkModeToggle";
 
 const Dashboard = () => {
@@ -17,28 +16,11 @@ const Dashboard = () => {
   const [category, setCategory] = useState("");
   const [id, setId] = useState("");
   const dispatch = useDispatch();
-  const mode = useSelector((state) => state.theme.isDarkMode);
-  console.log(mode);
-  const { isDarkMode } = mode;
 
   const data = useSelector((state) => state.expense.data);
-  console.log(data);
+ 
   let expenseData = Object.keys(data).map((expData) => data[expData]);
-  console.log(expenseData);
 
-  const switchDarkMode = () => {
-    isDarkMode ? handleDarkMode(false) : handleDarkMode(true);
-  };
-
-  const handleDarkMode = (e) => async (dispatch) => {
-    localStorage.setItem("darkmode", e);
-
-    dispatch(themeActions.darkModeReducer(e));
-  };
-
-  useEffect(() => {
-    document.body.style.backgroundColor = isDarkMode ? "#292c35" : "#fff";
-  }, [isDarkMode]);
 
   const logOutHandler = () => {
     dispatch(authActions.logout());
@@ -53,7 +35,7 @@ const Dashboard = () => {
 
   const updateHandler = (id, e) => {
     e.preventDefault();
-    console.log(id);
+   
     const string = localStorage.getItem("Id");
     const email = string.replace(/[&,+()$~%@.'":*?<>{}]/g, "");
     axios
@@ -92,9 +74,9 @@ const Dashboard = () => {
   };
 
   const makeCSV = (data) => {
-    return data.map((e) => e["Money"]);
+    return data.map((e) => JSON.stringify(e));
   };
-  console.log(makeCSV(expenseData));
+
 
   const downloadFileHandler = (e) => {
     e.preventDefault();
@@ -126,7 +108,7 @@ const Dashboard = () => {
         <DarkModeToggle />
       </div>
       <div>
-        <Card className="input">
+        <div className="input">
           <div className="ExpContainer">
             <div>
               <h1>Add Expenses</h1>
@@ -164,11 +146,11 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="actions">
-              <button type="button">Premium</button>
+            
               <button onClick={downloadFileHandler}>Download file</button>
             </div>
           </form>
-        </Card>
+        </div>
 
         <ExpenseList editHandler={editHandler} />
       </div>

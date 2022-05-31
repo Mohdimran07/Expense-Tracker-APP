@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from './auth'
 import expenseReducer from './expense';
-import themeReducer from './themeReducer'
+
 
 const store = configureStore({
-    reducer : {auth: authReducer, expense: expenseReducer, theme: themeReducer}
+    reducer : {auth: authReducer, expense: expenseReducer}
 })
 
 export default store;

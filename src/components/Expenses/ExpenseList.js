@@ -1,11 +1,11 @@
 import React from "react";
-import Card from "../Expenses/Card";
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./ExpenseList.css";
 import { expenseActions } from "../../redux-store/expense";
 import { useDispatch } from "react-redux";
-// import { expenseActions } from "../../redux-store/expense";
+
 
 const ExpenseList = ({ editHandler }) => {
   const [expenses, setExpenses] = useState([]);
@@ -49,7 +49,7 @@ const ExpenseList = ({ editHandler }) => {
   };
 
   return (
-    <Card className="users">
+    <div className="users">
       <ul>
         {!isLoading &&
           expenses &&
@@ -66,7 +66,7 @@ const ExpenseList = ({ editHandler }) => {
           ))}
         {isLoading && <p>Loading...</p>}
       </ul>
-    </Card>
+    </div>
   );
 };
 
